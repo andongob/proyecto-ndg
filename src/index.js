@@ -71,10 +71,10 @@ var address = '0x' + util.pubToAddress(publickey).toString('hex'); // convierte 
 
     console.log(9, util.isValidPublic(publickey)); //valida el formato correcto de la clave pública
 
-/*window.addEventListener('load', () => {
+window.addEventListener('load', () => {
 
     if (window.ethereum == undefined){
-        return alert ('Instala Metamask');
+        return alert ('Instala Metamask'); // si desactivo la extensión de metamask me saldra el mensaje indicado
     }
 
     var web3 = new Web3(window.ethereum);
@@ -82,14 +82,16 @@ var address = '0x' + util.pubToAddress(publickey).toString('hex'); // convierte 
         console.log(12, web3);
 
 
+    web3.eth.getBalance('0xD1AA1f9df3F069e77644c26D7a3457A5F04376A3',(err, result) => { // cuenta de ganache
+
+        var balance = web3.utils.fromWei(result, 'ether'); //convierte el saldo de Wei a Ether
+
+        console.log(13, balance);
+    });
 });
 
+        //Hasta aquí todo correcto
 
-web3.eth.getBalance('0xD1AA1f9df3F069e77644c26D7a3457A5F04376A3', (err, result) =>{
 
-    var balance = web3.utils.fromWei(result, 'ether');
-
-    console.log(13, balance);
-});*/
 
 });
