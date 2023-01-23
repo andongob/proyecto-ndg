@@ -71,7 +71,7 @@ var address = '0x' + util.pubToAddress(publickey).toString('hex'); // convierte 
 
     console.log(9, util.isValidPublic(publickey)); //valida el formato correcto de la clave pública
 
-window.addEventListener('load', () => {
+/*window.addEventListener('load', () => {
 
     if (window.ethereum == undefined){
         return alert ('Instala Metamask');
@@ -90,6 +90,6 @@ web3.eth.getBalance('0xD1AA1f9df3F069e77644c26D7a3457A5F04376A3', (err, result) 
     var balance = web3.utils.fromWei(result, 'ether');
 
     console.log(13, balance);
-});
+});*/
 
 });
