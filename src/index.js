@@ -47,7 +47,7 @@ bip39.mnemonicToSeed(mnemonic.toString()).then(seed => {  //encripta el seed (se
 
     console.log(2, seed); // salida de log 2
 
-var path = "m/44'/60'/0'/0/0" //código que genera la semilla en la red de ethereum, esto cambiaría dependiendo de la red
+var path = "m/44'/60'/0'/0/0"; //código que genera la semilla en la red de ethereum, esto cambiaría dependiendo de la red
 
 var wallet = hdkey.fromMasterSeed(seed).derivePath(path).getWallet(); //crea el wallet en ethereum
 
@@ -71,27 +71,52 @@ var address = '0x' + util.pubToAddress(publickey).toString('hex'); // convierte 
 
     console.log(9, util.isValidPublic(publickey)); //valida el formato correcto de la clave pública
 
+});
+
+//EL SIGUENTE CÓDIGO ES PARA VERIFICAR METAMASK Y EL SALDO, LINEAS 78 A 94
+
 window.addEventListener('load', () => {
 
-    if (window.ethereum == undefined){
-        return alert ('Instala Metamask'); // si desactivo la extensión de metamask me saldra el mensaje indicado
+    if(window.ethereum == undefined)  {
+        return alert('Instala Metamask'); //Verifica que esta instalado el wallet
     }
 
     var web3 = new Web3(window.ethereum);
 
-        console.log(12, web3);
+    console.log(14, web3);
 
+    web3.eth.getBalance('0xD1AA1f9df3F069e77644c26D7a3457A5F04376A3', (err, result) => {
 
-    web3.eth.getBalance('0xD1AA1f9df3F069e77644c26D7a3457A5F04376A3',(err, result) => { // cuenta de ganache
+        var balance = web3.utils.fromWei(result, 'ether'); //convierte de Wei a Ether
 
-        var balance = web3.utils.fromWei(result, 'ether'); //convierte el saldo de Wei a Ether
-
-        console.log(13, balance);
+        console.log(15, balance)
     });
 });
 
-        //Hasta aquí todo correcto
 
 
 
+
+window.addEventListener('load', () => {
+
+    if(window.ethereum == undefined)  {
+        return alert('Instala Metamask'); //Verifica que esta instalado el wallet
+    }
+
+    var web3 = new Web3();
+
+    web3.setProvider( 
+        new web3.providers.HttpProvider('https://celo-mainnet.infura.io/v3/87388b2cafcd4bcdbb26947767a1869f')
+    );
+
+    console.log(16, web3);
+
+    web3.eth.getBalance('0xD1AA1f9df3F069e77644c26D7a3457A5F04376A3', (err, result) => {
+
+        var balance = web3.utils.fromWei(result, 'ether'); //convierte de Wei a Ether
+
+        console.log(17, balance)
+    });
 });
+
+//////////////////////////////////////Hasta aquí todo correcto
