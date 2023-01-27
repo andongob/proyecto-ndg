@@ -97,7 +97,7 @@ window.addEventListener('load', () => {
 
 
 
-window.addEventListener('load', () => {
+window.addEventListener('load', async () => {
 
     if(window.ethereum == undefined)  {
         return alert('Instala Metamask'); //Verifica que esta instalado el wallet
@@ -117,6 +117,12 @@ window.addEventListener('load', () => {
 
         console.log(17, balance)
     });
+
+         console.log("Gas Price:");
+    await web3.eth.getGasPrice().then(console.log);
+
+    
 });
 
 //////////////////////////////////////Hasta aquí todo correcto
+
