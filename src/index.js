@@ -5,6 +5,7 @@ import * as util from 'ethereumjs-util'; //diferentes utilidades de verificació
 import * as CryptoJS from 'crypto-js';
 import * as Web3 from 'web3';
 //import { web } from 'webpack';
+import {Transaction} from 'ethereumjs-tx';
 
 
 //PRIMERA VEZ CUANDO SE CREAN LAS SEMILLAS 
@@ -106,7 +107,7 @@ window.addEventListener('load', async () => {
     var web3 = new Web3();
 
     web3.setProvider( 
-        new web3.providers.HttpProvider('https://celo-mainnet.infura.io/v3/87388b2cafcd4bcdbb26947767a1869f')
+        new web3.providers.HttpProvider('https://goerli.infura.io/v3/87388b2cafcd4bcdbb26947767a1869f')
     );
 
     console.log(16, web3);
@@ -118,11 +119,83 @@ window.addEventListener('load', async () => {
         console.log(17, balance)
     });
 
-         console.log("Gas Price:");
+    //Llamadas a nodos remotos (INDIVIDUALES)
+
+         console.log("Gas Price:"); //coste de gas de la transacción
     await web3.eth.getGasPrice().then(console.log);
 
+        console.log("Accounts:");  //Llamada que indica que cuentas hay en ese nodo
+    await web3.eth.getAccounts().then(console.log);
+
+        console.log("Transaction:"); //Llamada a una transacción (ej.- https://goerli.infura.io/v3/87388b2cafcd4bcdbb26947767a1869f)
+    var tx = "0x1ada54589fd406b7920f9d3e9629f99ee6a30b0e8a52bbc2def13e9fd91a398f";
+    await web3.eth.getTransaction(tx).then(console.log);
+
+        console.log("Receipt:");
+    await web3.eth.getTransactionReceipt(tx).then(console.log);
+
+        console.log("Nonce:"); //Indice de la transacción y posición - se ve también en la firma de transacciones)
+    await web3.eth.getTransactionCount('0xf36F155486299eCAff2D4F5160ed5114C1f66000').then(console.log)
+
+    //Consultas de llamadas en batch
+
+var request1 = web3.eth.getBalance.request('0xf36F155486299eCAff2D4F5160ed5114C1f66000', 'latest', function (error, balance) {
+        console.log('Request 1', balance);
+    });
     
-});
+var request2 = web3.eth.getTransaction.request('0x8805fb87c9ffa3402d368de8edcf0ef883aa08d38f876ac9eae6ee26dd37b27e', function (error, receipt) {
+        console.log('Request 2', receipt)
+    });
+
+    var batch = new web3.BatchRequest();
+    batch.add(request1);
+    batch.add(request2);
+    batch.execute();
+
+
 
 //////////////////////////////////////Hasta aquí todo correcto
 
+
+/*ESCRITURA 
+
+
+console.log(address);
+
+var rawData = {  //piezas que componen la transacción
+    from: address,
+    to: "",
+    value: 100,
+    gasPrice: web3js.utils.toHex(10000000000),
+    gasLimit: web3js.utils.tpHex(1000000),
+    nonce: await web3js.eth.getTransactionCount(address)
+};
+
+//console.log(rawData);
+
+/*web3js.eth.sendTransaccion(rawData).then(
+    receipt => {
+        console.log(receipt);
+    },
+    error => {
+        console.log(error);
+    }
+
+);*/
+
+/*console.log(privateKey);
+console.log(privateKey.toString('hex'));
+
+// opcion 1 - para firmar
+var signed = await web3js.eth.accounts.signTransacion(rawData, privatekey.toString("hex"));
+
+console.log(signed);
+
+//opción 2 - para firmar
+
+var tx = new Transaction(rawData, { chain: 'goerli'});
+tx.sign(privateKey);
+
+var serializedTx = tx.serialize().toString('hex');*/
+
+});
